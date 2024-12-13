@@ -1,67 +1,80 @@
-.receipt-upload-container {
+.upload-container {
     padding: 20px;
     max-width: 800px;
     margin: 0 auto;
+  }
 
-    mat-card {
-        .upload-section {
-            padding: 40px;
-            border: 2px dashed #ccc;
-            border-radius: 4px;
-            text-align: center;
-            margin: 20px 0;
-            transition: all 0.3s ease;
+  .upload-zone {
+    border: 2px dashed #ccc;
+    border-radius: 4px;
+    padding: 40px;
+    text-align: center;
+    transition: all 0.3s ease;
+    background-color: #fafafa;
+    margin: 20px 0;
 
-            &.dragover {
-                background-color: rgba(63, 81, 181, 0.1);
-                border-color: #3f51b5;
-            }
-
-            .upload-text {
-                margin: 10px 0;
-                color: #666;
-            }
-
-            .file-name {
-                margin: 10px 0;
-                color: #3f51b5;
-                font-weight: 500;
-            }
-        }
-
-        .loading-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 20px 0;
-
-            p {
-                margin-top: 10px;
-                color: #666;
-            }
-        }
-
-        .items-section {
-            margin-top: 20px;
-
-            .total-section {
-                margin: 20px 0;
-                text-align: right;
-                
-                h3 {
-                    color: #3f51b5;
-                    font-weight: 500;
-                }
-            }
-
-            .create-bill-btn {
-                width: 100%;
-                margin-top: 20px;
-                
-                mat-icon {
-                    margin-right: 8px;
-                }
-            }
-        }
+    &.dragover {
+      background-color: rgba(63, 81, 181, 0.1);
+      border-color: #3f51b5;
     }
-}
+
+    .upload-icon {
+      font-size: 48px;
+      width: 48px;
+      height: 48px;
+      color: #666;
+      margin-bottom: 16px;
+    }
+
+    p {
+      color: #666;
+      margin: 8px 0;
+    }
+
+    .selected-file {
+      margin-top: 16px;
+      color: #3f51b5;
+      font-weight: 500;
+    }
+  }
+
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 40px 0;
+
+    p {
+      margin-top: 16px;
+      color: #666;
+    }
+  }
+
+  .items-container {
+    margin-top: 30px;
+
+    h3 {
+      color: #333;
+      margin-bottom: 16px;
+    }
+
+    .total-amount {
+      text-align: right;
+      margin: 20px 0;
+      
+      h3 {
+        color: #3f51b5;
+        font-weight: 500;
+      }
+    }
+
+    .create-bill-btn {
+      width: 100%;
+      margin-top: 20px;
+      padding: 8px;
+      
+      mat-icon {
+        margin-right: 8px;
+      }
+    }
+  }

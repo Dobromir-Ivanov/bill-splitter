@@ -11,28 +11,25 @@ export class BillService {
 
   constructor(private http: HttpClient) {}
 
-  uploadReceipt(file: File): Observable<{ items: Item[] }> {
-    const formData = new FormData();
-    formData.append('receipt', file);
-    return this.http.post<{ items: Item[] }>(`${this.apiUrl}/upload-receipt`, formData);
+  getBill(id: string): Observable<Bill> {
+    return this.http.get<Bill>(`${this.apiUrl}/bills/${id}`);
   }
 
-  createBill(items: Item[]): Observable<Bill> {
-    return this.http.post<Bill>(`${this.apiUrl}/bills`, { items });
+  uploadReceipt(file: File): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('receipt', file, file.name);
+    return this.http.post(`${this.apiUrl}/upload-receipt`, formData);
   }
 
-  getBill(billId: string): Observable<Bill> {
-    return this.http.get<Bill>(`${this.apiUrl}/bills/${billId}`);
+  createBill(items: Item[]): Observable<{ id: string }> {
+      return this.http.post<{ id: string }>(`${this.apiUrl}/bills`, { items });
   }
 
-  addParticipant(billId: string, name: string): Observable<Bill> {
-    return this.http.post<Bill>(`${this.apiUrl}/bills/${billId}/participants`, { name });
+  addParticipant(billId: string, participant: Participant): Observable<Bill> {
+      return this.http.post<Bill>(`${this.apiUrl}/bills/${billId}/participants`, participant);
   }
 
   updateParticipantItems(billId: string, participantName: string, selectedItems: Item[]): Observable<Bill> {
-    return this.http.post<Bill>(`${this.apiUrl}/bills/${billId}/select-items`, {
-      participantName,
-      selectedItems
-    });
+    return this.http.put<Bill>(`${this.apiUrl}/bills/${billId}/participants/${participantName}`, {selectedItems});
   }
 }
