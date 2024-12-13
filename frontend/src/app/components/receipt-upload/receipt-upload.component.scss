@@ -1,0 +1,67 @@
+.receipt-upload-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+
+    mat-card {
+        .upload-section {
+            padding: 40px;
+            border: 2px dashed #ccc;
+            border-radius: 4px;
+            text-align: center;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+
+            &.dragover {
+                background-color: rgba(63, 81, 181, 0.1);
+                border-color: #3f51b5;
+            }
+
+            .upload-text {
+                margin: 10px 0;
+                color: #666;
+            }
+
+            .file-name {
+                margin: 10px 0;
+                color: #3f51b5;
+                font-weight: 500;
+            }
+        }
+
+        .loading-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+
+            p {
+                margin-top: 10px;
+                color: #666;
+            }
+        }
+
+        .items-section {
+            margin-top: 20px;
+
+            .total-section {
+                margin: 20px 0;
+                text-align: right;
+                
+                h3 {
+                    color: #3f51b5;
+                    font-weight: 500;
+                }
+            }
+
+            .create-bill-btn {
+                width: 100%;
+                margin-top: 20px;
+                
+                mat-icon {
+                    margin-right: 8px;
+                }
+            }
+        }
+    }
+}

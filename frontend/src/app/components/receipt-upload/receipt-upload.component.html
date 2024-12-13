@@ -1,0 +1,59 @@
+<div class="receipt-upload-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Качване на касова бележка</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="upload-section" 
+                 [class.dragover]="isDragOver"
+                 (dragover)="onDragOver($event)"
+                 (dragleave)="onDragLeave($event)"
+                 (drop)="onDrop($event)">
+                <input type="file" 
+                       #fileInput 
+                       (change)="onFileSelected($event)"
+                       accept="image/*"
+                       style="display: none">
+                <button mat-raised-button 
+                        color="primary"
+                        (click)="fileInput.click()">
+                    <mat-icon>upload</mat-icon>
+                    Избери файл
+                </button>
+                <p class="upload-text">или провлачете файл тук</p>
+                <p *ngIf="selectedFile" class="file-name">
+                    Избран файл: {{ selectedFile.name }}
+                </p>
+            </div>
+
+            <div *ngIf="loading" class="loading-section">
+                <mat-spinner diameter="40"></mat-spinner>
+                <p>Обработка на бележката...</p>
+            </div>
+
+            <div *ngIf="items.length > 0" class="items-section">
+                <h3>Разпознати продукти:</h3>
+                <mat-list>
+                    <mat-list-item *ngFor="let item of items">
+                        <mat-icon matListItemIcon>receipt</mat-icon>
+                        <div matListItemTitle>{{ item.name }}</div>
+                        <div matListItemLine>{{ item.price | currency:'BGN':'symbol-narrow':'1.2-2' }}</div>
+                    </mat-list-item>
+                </mat-list>
+
+                <div class="total-section">
+                    <h3>Обща сума: {{ getTotalAmount() | currency:'BGN':'symbol-narrow':'1.2-2' }}</h3>
+                </div>
+
+                <button mat-raised-button 
+                        color="accent" 
+                        class="create-bill-btn"
+                        (click)="createBill()"
+                        [disabled]="items.length === 0">
+                    <mat-icon>add_circle</mat-icon>
+                    Създай нова сметка
+                </button>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

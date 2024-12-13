@@ -1,0 +1,82 @@
+<div class="bill-details-container">
+    <mat-card class="bill-card">
+        <mat-card-header>
+            <mat-card-title>Детайли на сметката</mat-card-title>
+            <mat-card-subtitle>Създадена на: {{ bill?.createdAt | date:'medium' }}</mat-card-subtitle>
+        </mat-card-header>
+        
+        <mat-card-content>
+            <div class="bill-content">
+                <!-- Секция за добавяне на участници -->
+                <div class="participants-section">
+                    <h3>Добави участник</h3>
+                    <form (ngSubmit)="addParticipant()" class="add-participant-form">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Име на участник</mat-label>
+                            <input matInput [(ngModel)]="newParticipantName" 
+                                   name="participantName" 
+                                   required>
+                        </mat-form-field>
+                        <button mat-raised-button 
+                                color="primary"
+                                [disabled]="!newParticipantName">
+                            <mat-icon>person_add</mat-icon>
+                            Добави
+                        </button>
+                    </form>
+
+                    <!-- Списък с участници -->
+                    <div class="participants-list">
+                        <mat-accordion>
+                            <mat-expansion-panel *ngFor="let participant of bill?.participants">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        {{ participant.name }}
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        {{ participant.amount | currency:'BGN':'symbol-narrow':'1.2-2' }}
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+
+                                <mat-selection-list #itemsList>
+                                    <mat-list-option *ngFor="let item of bill?.items"
+                                                   [selected]="isItemSelected(participant, item)"
+                                                   (selectionChange)="onItemSelection($event, participant, item)">
+                                        <div class="item-option">
+                                            <span>{{ item.name }}</span>
+                                            <span class="item-price">
+                                                {{ item.price | currency:'BGN':'symbol-narrow':'1.2-2' }}
+                                            </span>
+                                        </div>
+                                    </mat-list-option>
+                                </mat-selection-list>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                    </div>
+                </div>
+
+                <!-- Обобщение на сметката -->
+                <mat-card class="summary-card">
+                    <mat-card-header>
+                        <mat-card-title>Обобщение</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <div class="summary-item">
+                            <span>Обща сума:</span>
+                            <span>{{ bill?.totalAmount | currency:'BGN':'symbol-narrow':'1.2-2' }}</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Платени:</span>
+                            <span>{{ bill?.paidAmount | currency:'BGN':'symbol-narrow':'1.2-2' }}</span>
+                        </div>
+                        <mat-divider></mat-divider>
+                        <div class="summary-item remaining">
+                            <span>Остатък:</span>
+                            <span>{{ getRemainingAmount() | currency:'BGN':'symbol-narrow':'1.2-2' }}</span>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
