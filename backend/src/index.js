@@ -12,16 +12,9 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Serve static files from the 'public' folder in backend
-app.use(express.static(path.join(__dirname, 'public')));
 
-// Serve static files from Angular build
-app.use(express.static(path.join(__dirname, '../frontend/dist/bill-splitter-frontend')));
+app.use(express.static(path.join(__dirname, '../../frontend/dist/bill-splitter-frontend/browser')));
 
-// For SPA routing - send all requests to Angular's index.html
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/dist/bill-splitter-frontend/index.html'));
-});
 
 // File upload configuration
 const storage = multer.memoryStorage();
@@ -203,6 +196,8 @@ app.put('/api/bills/:billId/participants/:participantName', (req, res) => {
     res.status(500).json({ error: 'Failed to update bill items' });
   }
 });
+
+
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
