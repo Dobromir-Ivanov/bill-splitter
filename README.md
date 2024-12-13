@@ -1,5 +1,7 @@
 # Bill Splitter Application
 
+> This project was developed with the assistance of AI technology (Codeium), showcasing the potential of human-AI collaboration in modern software development.
+
 A web application that helps groups of friends split bills based on receipt items. Users can upload receipt images, automatically recognize items through OCR, and split costs based on individual consumption.
 
 ## Features
