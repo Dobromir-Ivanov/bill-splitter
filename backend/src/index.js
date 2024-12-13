@@ -1,7 +1,7 @@
-//backend
 const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
+const path = require('path');
 require('dotenv').config();
 const axios = require('axios');
 
@@ -11,6 +11,17 @@ const port = process.env.PORT || 3000;
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Serve static files from the 'public' folder in backend
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Serve static files from Angular build
+app.use(express.static(path.join(__dirname, '../frontend/dist/bill-splitter-frontend')));
+
+// For SPA routing - send all requests to Angular's index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dist/bill-splitter-frontend/index.html'));
+});
 
 // File upload configuration
 const storage = multer.memoryStorage();
@@ -25,7 +36,7 @@ app.post('/api/upload-receipt', upload.single('receipt'), async (req, res) => {
         // Converti l'immagine in base64
         const imageBase64 = req.file.buffer.toString('base64');
 
-        const apiKey = process.env.GEMINI_API_KEY;
+        const apiKey = 'AIzaSyAzSHKHoPCC-ARiu5n8hK0i5K4qlwPhccw';
         const geminiModel = 'gemini-2.0-flash-exp';//'gemini-1.5-flash';  // Nome effettivo del modello
         const gemini2Endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${geminiModel}:generateContent?key=${apiKey}`;
         
