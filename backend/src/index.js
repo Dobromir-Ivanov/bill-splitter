@@ -16,9 +16,8 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 // OCR worker initialization
-const worker = createWorker();
+const worker = createWorker(); // Remove the logger for now
 
-// Routes
 app.post('/api/upload-receipt', upload.single('receipt'), async (req, res) => {
     try {
         if (!req.file) {
@@ -31,11 +30,8 @@ app.post('/api/upload-receipt', upload.single('receipt'), async (req, res) => {
 
         const { data: { text } } = await worker.recognize(req.file.buffer);
         
-        // Process the OCR text to extract products and prices
-        // This is a basic implementation - you'll need to enhance it based on receipt format
         const lines = text.split('\n');
         const items = lines.map(line => {
-            // Basic parsing - enhance based on actual receipt format
             const match = line.match(/(.+?)\s+(\d+[\.,]\d{2})/);
             if (match) {
                 return {
@@ -50,72 +46,9 @@ app.post('/api/upload-receipt', upload.single('receipt'), async (req, res) => {
     } catch (error) {
         console.error('OCR Error:', error);
         res.status(500).json({ error: 'Failed to process receipt' });
+    } finally {
+        await worker.terminate();
     }
-});
-
-// Bills endpoints
-let bills = [];
-
-app.post('/api/bills', (req, res) => {
-    const newBill = {
-        id: Date.now().toString(),
-        items: req.body.items,
-        participants: [],
-        totalAmount: req.body.items.reduce((sum, item) => sum + item.price, 0),
-        paidAmount: 0
-    };
-    bills.push(newBill);
-    res.json(newBill);
-});
-
-app.post('/api/bills/:billId/participants', (req, res) => {
-    const { billId } = req.params;
-    const { name } = req.body;
-    
-    const bill = bills.find(b => b.id === billId);
-    if (!bill) {
-        return res.status(404).json({ error: 'Bill not found' });
-    }
-
-    bill.participants.push({
-        name,
-        selectedItems: [],
-        amount: 0
-    });
-
-    res.json(bill);
-});
-
-app.post('/api/bills/:billId/select-items', (req, res) => {
-    const { billId } = req.params;
-    const { participantName, selectedItems } = req.body;
-    
-    const bill = bills.find(b => b.id === billId);
-    if (!bill) {
-        return res.status(404).json({ error: 'Bill not found' });
-    }
-
-    const participant = bill.participants.find(p => p.name === participantName);
-    if (!participant) {
-        return res.status(404).json({ error: 'Participant not found' });
-    }
-
-    participant.selectedItems = selectedItems;
-    participant.amount = selectedItems.reduce((sum, item) => sum + item.price, 0);
-    bill.paidAmount = bill.participants.reduce((sum, p) => sum + p.amount, 0);
-
-    res.json(bill);
-});
-
-app.get('/api/bills/:billId', (req, res) => {
-    const { billId } = req.params;
-    const bill = bills.find(b => b.id === billId);
-    
-    if (!bill) {
-        return res.status(404).json({ error: 'Bill not found' });
-    }
-
-    res.json(bill);
 });
 
 app.listen(port, () => {

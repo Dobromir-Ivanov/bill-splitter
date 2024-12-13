@@ -234,22 +234,9 @@ export class ReceiptUploadComponent {
     this.loading = true;
     this.items = [];
 
-    // Симулираме OCR процеса с временни данни
-    setTimeout(() => {
-      this.items = [
-        { name: 'Прясно пилешко филе', price: 15.64 },
-        { name: 'Крем за мазане лайт', price: 3.69 },
-        { name: 'Скир натурален', price: 7.98 },
-        { name: 'Краве сирене', price: 12.50 },
-        { name: 'Домати', price: 5.99 },
-        { name: 'Краставици', price: 4.50 },
-        { name: 'Хляб', price: 2.20 }
-      ];
-      this.loading = false;
-    }, 2000);
 
     // В реалния проект тук ще извикваме backend API
-    /*
+
     this.billService.uploadReceipt(this.selectedFile).subscribe({
       next: (response) => {
         this.items = response.items;
@@ -265,7 +252,7 @@ export class ReceiptUploadComponent {
         );
       }
     });
-    */
+ 
   }
 
   getTotalAmount(): number {

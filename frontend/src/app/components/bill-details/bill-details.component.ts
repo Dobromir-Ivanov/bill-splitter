@@ -284,27 +284,11 @@ export class BillDetailsComponent implements OnInit {
   }
 
   loadBill(billId: string) {
-    // Симулираме зареждане на сметка с тестови данни
-    const mockItems = [
-      { name: 'Прясно пилешко филе', price: 15.64 },
-      { name: 'Крем за мазане лайт', price: 3.69 },
-      { name: 'Скир натурален', price: 7.98 },
-      { name: 'Краве сирене', price: 12.50 },
-      { name: 'Домати', price: 5.99 },
-      { name: 'Краставици', price: 4.50 },
-      { name: 'Хляб', price: 2.20 }
-    ];
-
-    const totalAmount = mockItems.reduce((sum, item) => sum + item.price, 0);
-
-    this.bill = {
-      id: billId,
-      items: mockItems,
-      participants: [],
-      totalAmount: totalAmount,
-      paidAmount: 0,
-      createdAt: new Date()
-    };
+    this.billService.getBill(billId).subscribe((response: Bill) => {
+      this.bill = response;
+    }, error => {
+      console.error('Error loading bill:', error);
+    });
   }
 
   addParticipant() {

@@ -1,5 +1,6 @@
 # Dependencies
-/node_modules
+/backend/node_modules
+/frontend/node_modules
 /.pnp
 .pnp.js
 
@@ -20,16 +21,6 @@
 *.sublime-workspace
 .vscode/*
 
-# Angular specific
-.angular/
-.sass-cache/
-/connect.lock
-/coverage
-/libpeerconnection.log
-npm-debug.log
-yarn-error.log
-testem.log
-/typings
 
 # System Files
 .DS_Store
