@@ -29,7 +29,7 @@ app.post('/api/upload-receipt', upload.single('receipt'), async (req, res) => {
         // Converti l'immagine in base64
         const imageBase64 = req.file.buffer.toString('base64');
 
-        const apiKey = 'AIzaSyAzSHKHoPCC-ARiu5n8hK0i5K4qlwPhccw';
+        const apiKey = '**********************';
         const geminiModel = 'gemini-2.0-flash-exp';//'gemini-1.5-flash';  // Nome effettivo del modello
         const gemini2Endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${geminiModel}:generateContent?key=${apiKey}`;
         
